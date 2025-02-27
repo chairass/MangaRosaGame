@@ -1,19 +1,29 @@
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MangaRosaMemoryGame {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
+    private static int pontuacaoJ1 = 0;
+    private static int pontuacaoJ2 = 0;
+    private static int resposta = 3;
+    private static String jogador1 = "PARTICIPANTE01";
+    private static String jogador2 = "PARTICIPANTE02";
+    private static String tamTabuleiro;
 
+
+    public static void main(String[] args) {
         System.out.println("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550");
         System.out.println("Manga Rosa Memory Game");
         System.out.println("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550");
 
-        int pontuacaoJ1 = 0;
-        int pontuacaoJ2 = 0;
-        int resposta = 3;
-        String jogador1 = "PARTICIPANTE01";
-        String jogador2 = "PARTICIPANTE02";
-        String tamTabuleiro;
+        String[][] matrizTabuleiro = new String[4][4];
+
+
+
+        ArrayList<String> tabuleiro1 = new ArrayList<>();
+
+
 
         while (resposta <= 3){
             System.out.println("1. Iniciar\n2. Pontuação participantes\n3. Regras do Jogo\n4. Sair");
@@ -25,21 +35,24 @@ public class MangaRosaMemoryGame {
                 System.out.print("Jogador 2: ");
                 jogador2 = scanner.next();
 
-                System.out.println("Informe o tamanho do tabuleiro que voce deseja:\n A: 4x4\n B:" +
-                        " " +
-                        "8x8\n C: 16x16");
+                System.out.println("Informe o tamanho do tabuleiro que voce deseja:\nA: 4x4\nB: " +
+                        "6x6\nC: 8x8 \nD: 10x10" );
                 tamTabuleiro = scanner.next();
 
-                if (tamTabuleiro == "A"){
-                    System.out.println("4x4");
+                if (tamTabuleiro.equalsIgnoreCase("A")){
+
                 }
-                if (tamTabuleiro == "B"){
+                else if (tamTabuleiro.equalsIgnoreCase("B")){
+                    System.out.println("6x6");
+                }
+                else if (tamTabuleiro.equalsIgnoreCase("C")){
                     System.out.println("8x8");
                 }
-                if (tamTabuleiro == "C"){
-                    System.out.println("16x16");
+                else if (tamTabuleiro.equalsIgnoreCase("D")){
+                    System.out.println("10x10");
                 }
             }
+
             if (resposta == 2){
                 if (pontuacaoJ1 == 0 && pontuacaoJ2 == 0){
                     System.out.println("Ainda não há pontuação");
@@ -51,7 +64,7 @@ public class MangaRosaMemoryGame {
                 }
             }
             if (resposta == 3){
-                System.out.println("\u001b[1m Aqui vai as regras do jogo");
+                System.out.println("Aqui vai as regras do jogo");
                 System.out.println("Nomes dos jogadores: Cada jogador deve ter um nome. Se não for informado, os nomes padrão serão \"PARTICIPANTE01\" e \"PARTICIPANTE02\".\n" +
                         "Pontuação:\n" +
                         "Par com fundo amarelo → +1 ponto.\n" +
@@ -71,3 +84,4 @@ public class MangaRosaMemoryGame {
         }
     }
 }
+
