@@ -93,7 +93,7 @@ public class MangaRosaMemoryGame {
             }
         }
 
-        String[][] tabuleiro1 = new String[4][4];
+        static String[][] tabuleiro1 = new String[4][4];
 
         int index = 0;
         for (int i = 0; i < 4; i++) {
