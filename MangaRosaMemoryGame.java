@@ -13,9 +13,9 @@ public class MangaRosaMemoryGame {
 
 
     public static void main(String[] args) {
-        System.out.println("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550");
+        System.out.println("\u2550".repeat(22));
         System.out.println("Manga Rosa Memory Game");
-        System.out.println("\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550");
+        System.out.println("\u2550".repeat(22));
 
         String[][] matrizTabuleiro = new String[4][4];
 
