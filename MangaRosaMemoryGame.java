@@ -24,10 +24,22 @@ public class MangaRosaMemoryGame {
     public static final String BLUE = "\u001B[44m";
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         System.out.println("\u2550".repeat(22));        System.out.println("Manga Rosa Memory Game");
         System.out.println("\u2550".repeat(22));
 
         while (resposta <= 3) {
+=======
+        System.out.println("\u2550".repeat(22));
+        System.out.println("Manga Rosa Memory Game");
+        System.out.println("\u2550".repeat(22));
+
+        String[][] matrizTabuleiro = new String[4][4];
+
+        ArrayList<String> tabuleiro1 = new ArrayList<>();
+
+        while (resposta <= 3){
+>>>>>>> 19db57922f9932f5371ecae0c22ef06c4b9629a7
             System.out.println("1. Iniciar\n2. Pontuação participantes\n3. Regras do Jogo\n4. Sair");
             resposta = scanner.nextInt();
             if (resposta == 1) {
