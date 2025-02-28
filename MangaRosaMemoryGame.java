@@ -19,11 +19,7 @@ public class MangaRosaMemoryGame {
 
         String[][] matrizTabuleiro = new String[4][4];
 
-
-
         ArrayList<String> tabuleiro1 = new ArrayList<>();
-
-
 
         while (resposta <= 3){
             System.out.println("1. Iniciar\n2. Pontuação participantes\n3. Regras do Jogo\n4. Sair");
