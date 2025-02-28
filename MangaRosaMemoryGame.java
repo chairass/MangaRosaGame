@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MangaRosaMemoryGame {
@@ -13,6 +14,9 @@ public class MangaRosaMemoryGame {
     private static String tamTabuleiro;
     private static int coluna;
     private static int linha;
+    public static String[][] matriz;
+    public static String[][] tabuleiroOculto;
+
 
     /// cores
     public static final String RESET = "\u001B[0m";
@@ -40,8 +44,10 @@ public class MangaRosaMemoryGame {
                 tamTabuleiro = scanner.next();
 
                 if (tamTabuleiro.equalsIgnoreCase("A")) {
+                    System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET + "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
                     gerarTabuleiro();
-                    System.out.println("Digite a posição da primeira carta que deseja revelar");
+                    exibirTabuleiro();
+                    jogo();
                 }
                 else if (tamTabuleiro.equalsIgnoreCase("B")) {
                     System.out.println("6x6");
@@ -85,23 +91,25 @@ public class MangaRosaMemoryGame {
     }
 
     public static void gerarTabuleiro() {
+        matriz = new String[4][4]; // Agora a matriz global é inicializada
 
         ArrayList<String> tabuleiro = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                tabuleiro.add("F");
+                tabuleiro.add(gerarStringAleatoria()); // usa a função de gerar a string
             }
         }
-
-        static String[][] tabuleiro1 = new String[4][4];
 
         int index = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                tabuleiro1[i][j] = tabuleiro.get(index);
+                matriz[i][j] = tabuleiro.get(index);
                 index++;
             }
         }
+    }
+    public  static void tabuleiroOculto(){
+
     }
     public static void exibirTabuleiro(){
         System.out.println("\u2550".repeat(22));
@@ -113,20 +121,48 @@ public class MangaRosaMemoryGame {
             System.out.println();
         }
     }
-    public static void jogo(){
 
-        System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
+    public static void tabuleiro(){
+        System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
         linha = scanner.nextInt();
         System.out.println("Coluna");
         coluna = scanner.nextInt();
 
-        if (linha >= 0 && linha < tabuleiro.length && coluna >= 0 && coluna < tabuleiro[0].length) {
-            System.out.println("Carta revelada: " + tabuleiro[linha][coluna]);
+        matriz = new String[4][4];
+    }
+
+    public static void jogo(){
+
+        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
+            System.out.println("Carta revelada: " + matriz[linha][coluna]);
         } else {
-            System.out.println("Posição inválida! Tente novamente.");
+            System.out.println("Posição inválida! Tente novamente.");
         }
 
     }
+
+    public static String gerarStringAleatoria() {
+
+        String caracteresNumero = "0123456789";
+        String caracteresLetra = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 1; i++) {
+
+            int index = random.nextInt(caracteresNumero.length());
+            sb.append(caracteresNumero.charAt(index));
+        }
+
+        for (int i = 0; i < 1; i++) {
+
+            int index = random.nextInt(caracteresLetra.length());
+            sb.append(caracteresLetra.charAt(index));
+        }
+
+        return sb.toString();
+    }
+
 }
 
 
