@@ -44,6 +44,7 @@ public class MangaRosaMemoryGame {
             }
         }
     }
+
     private static void tabuleiroOculto(){
         tabuleiro2 = new String[tamanho][tamanho];
 
@@ -63,16 +64,16 @@ public class MangaRosaMemoryGame {
         }
 
         // Adicionando a numeração das colunas
-        System.out.print(" "); // Espaço inicial para alinhar os números corretamente
-        for (int j = 0; j < 4; j++) {
+        System.out.print("  "); // Espaço inicial para alinhar os números corretamente
+        for (int j = 0; j < tamanho; j++) {
             System.out.print(" " + (j + 1) + "  ");
         }
         System.out.println();
 
         // Adicionando o tabuleiro com a numeração das linhas
-        for (int i = 0; i < 4; i++) {
-            System.out.print((i + 1) + " "); // Numeração das linhas
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < tamanho; i++) {
+            System.out.print((i + 1) + "  "); // Numeração das linhas
+            for (int j = 0; j < tamanho; j++) {
                 System.out.print(tabuleiro2[i][j] + "   ");
             }
             System.out.println();
@@ -88,36 +89,57 @@ public class MangaRosaMemoryGame {
         System.out.println("Informe o tamanho do tabuleiro:\nA: 4x4\nB: 6x6\nC: 8x8 \nD: 10x10");
         tamTabuleiro = scanner.nextLine();
 
+
         switch (scanner.nextLine().toUpperCase()) {
             case "A":
                 tamanho = 4;
                 gerarTabuleiro();
-                exibirTabuleiro();
+                System.out.println("\u2550".repeat(22));
+                System.out.println("Que comecem os jogos!");
+                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                tabuleiroOculto();
                 break;
 
             case "B":
                 tamanho = 6;
                 gerarTabuleiro();
-                exibirTabuleiro();
+                System.out.println("\u2550".repeat(22));
+                System.out.println("Que comecem os jogos!");
+                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                tabuleiroOculto();
                 break;
 
             case "C":
                 tamanho = 8;
                 gerarTabuleiro();
-                exibirTabuleiro();
+                System.out.println("\u2550".repeat(22));
+                System.out.println("Que comecem os jogos!");
+                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                tabuleiroOculto();
                 break;
 
             case "D":
                 tamanho = 10;
                 gerarTabuleiro();
-                exibirTabuleiro();
+                System.out.println("\u2550".repeat(22));
+                System.out.println("Que comecem os jogos!");
+                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                tabuleiroOculto();
                 break;
 
             default:
                 System.out.println("Opção inválida! Definindo padrão 4x4.");
                 tamanho = 4;
                 gerarTabuleiro();
-                exibirTabuleiro();
+                System.out.println("\u2550".repeat(22));
+                System.out.println("Que comecem os jogos!");
+                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                tabuleiroOculto();
 
         }
         System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
@@ -125,11 +147,12 @@ public class MangaRosaMemoryGame {
         System.out.print("Coluna: ");
         coluna = scanner.nextInt();
 
-        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
+        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length){
             System.out.println("Carta revelada: " + matriz[linha][coluna]);
         } else {
             System.out.println("Posição inválida! Tente novamente.");
         }
+
     }
 
     private static void mostrarPontuacao() {
@@ -171,18 +194,25 @@ public class MangaRosaMemoryGame {
     }
 
     private static void exibirTabuleiro() {
-        System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
-        System.out.println("\u2550".repeat(22));
-        System.out.println("Que comecem os jogos!");
 
+
+        // Adicionando a numeração das colunas
+        System.out.print("  "); // Espaço inicial para alinhar corretamente
+        for (int j = 0; j < tamanho; j++) {
+            System.out.print(" " + (j + 1) + "  ");
+        }
+        System.out.println();
+
+        // Adicionando o tabuleiro com a numeração das linhas
         for (int i = 0; i < tamanho; i++) {
+            System.out.print((i + 1) + " "); // Numeração das linhas
             for (int j = 0; j < tamanho; j++) {
-                System.out.print(matriz[i][j] + " ");
+                System.out.print(matriz[i][j] + "  ");
             }
             System.out.println();
         }
     }
+
 
     public static String gerarStringAleatoria() {
         String caracteresNumero = "0123456789";
