@@ -223,7 +223,14 @@ public class MangaRosaMemoryGame {
         for (int i = 0; i < tamanho; i++) {
             System.out.print((i + 1) + " "); // Numeração das linhas
             for (int j = 0; j < tamanho; j++) {
-                System.out.print(matriz[i][j] + "  ");
+                if (tabuleiro2[i][j].equals("C")) {
+
+                    System.out.print("C  ");
+                } else {
+
+                    String color = cardcolors[i][j];
+                    System.out.print(color + matriz[i][j] + RESET + "  ");
+                }
             }
             System.out.println();
         }
