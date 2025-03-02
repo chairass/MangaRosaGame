@@ -133,8 +133,11 @@ public class MangaRosaMemoryGame {
     private static void jogo() {
         System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
         linha = scanner.nextInt();
+        linha = linha - 1;
+
         System.out.print("Coluna: ");
         coluna = scanner.nextInt();
+        coluna = coluna - 1;
 
         if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
             System.out.println("Carta revelada: " + matriz[linha][coluna]);
