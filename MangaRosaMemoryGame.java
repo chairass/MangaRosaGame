@@ -44,6 +44,40 @@ public class MangaRosaMemoryGame {
             }
         }
     }
+    private static void tabuleiroOculto(){
+        tabuleiro2 = new String[tamanho][tamanho];
+
+        ArrayList<String> tabuleiro = new ArrayList<>();
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                tabuleiro.add("C");
+            }
+        }
+
+        int index = 0;
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                tabuleiro2 [i][j] = tabuleiro.get(index);
+                index++;
+            }
+        }
+
+        // Adicionando a numeração das colunas
+        System.out.print(" "); // Espaço inicial para alinhar os números corretamente
+        for (int j = 0; j < 4; j++) {
+            System.out.print(" " + (j + 1) + "  ");
+        }
+        System.out.println();
+
+        // Adicionando o tabuleiro com a numeração das linhas
+        for (int i = 0; i < 4; i++) {
+            System.out.print((i + 1) + " "); // Numeração das linhas
+            for (int j = 0; j < 4; j++) {
+                System.out.print(tabuleiro2[i][j] + "   ");
+            }
+            System.out.println();
+        }
+    }
 
     private static void iniciarJogo() {
         System.out.print("Jogador 1: ");
@@ -59,28 +93,24 @@ public class MangaRosaMemoryGame {
                 tamanho = 4;
                 gerarTabuleiro();
                 exibirTabuleiro();
-                jogo();
                 break;
 
             case "B":
                 tamanho = 6;
                 gerarTabuleiro();
                 exibirTabuleiro();
-                jogo();
                 break;
 
             case "C":
                 tamanho = 8;
                 gerarTabuleiro();
                 exibirTabuleiro();
-                jogo();
                 break;
 
             case "D":
                 tamanho = 10;
                 gerarTabuleiro();
                 exibirTabuleiro();
-                jogo();
                 break;
 
             default:
@@ -88,7 +118,17 @@ public class MangaRosaMemoryGame {
                 tamanho = 4;
                 gerarTabuleiro();
                 exibirTabuleiro();
-                jogo();
+
+        }
+        System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
+        linha = scanner.nextInt();
+        System.out.print("Coluna: ");
+        coluna = scanner.nextInt();
+
+        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
+            System.out.println("Carta revelada: " + matriz[linha][coluna]);
+        } else {
+            System.out.println("Posição inválida! Tente novamente.");
         }
     }
 
@@ -127,19 +167,6 @@ public class MangaRosaMemoryGame {
                 matriz[i][j] = tabuleiro.get(index);
                 index++;
             }
-        }
-    }
-
-    private static void jogo() {
-        System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
-        linha = scanner.nextInt();
-        System.out.print("Coluna: ");
-        coluna = scanner.nextInt();
-
-        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
-            System.out.println("Carta revelada: " + matriz[linha][coluna]);
-        } else {
-            System.out.println("Posição inválida! Tente novamente.");
         }
     }
 
