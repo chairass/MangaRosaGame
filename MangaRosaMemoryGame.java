@@ -16,10 +16,13 @@ public class MangaRosaMemoryGame {
     public static int tamanho;
     public static String tamTabuleiro;
     public static String[][] tabuleiro2;
+    public static String[][] cardcolors;
 
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[41m";
     public static final String BLUE = "\u001B[44m";
+    public static final String YELLOW = "\u001B[43m";
+    public static final String BLACK = "\u001B[40m";
 
     public static void main(String[] args) {
         System.out.println("\u2550".repeat(22));
@@ -160,6 +163,7 @@ public class MangaRosaMemoryGame {
 
     public static void gerarTabuleiro() {
         matriz = new String[tamanho][tamanho];
+        cardcolors = new String[tamanho][tamanho];
 
         ArrayList<String> tabuleiro = new ArrayList<>();
         for (int i = 0; i < tamanho; i++) {
@@ -174,6 +178,26 @@ public class MangaRosaMemoryGame {
             for (int j = 0; j < tamanho; j++) {
                 matriz[i][j] = tabuleiro.get(index);
                 index++;
+            }
+        }
+
+        int totalcards = tamanho * tamanho;
+        int redbluecards = totalcards / 2;
+        int blackcards = 1;
+        int yellowcards = totalcards - redbluecards - blackcards;
+
+        Random random = new Random();
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                if (redbluecards > 0) {
+                    cardcolors[i][j] = (random.nextBoolean()) ? RED : BLUE;
+                    redbluecards--;
+                } else if (blackcards > 0) {
+                    cardcolors[i][j] = BLACK;
+                    blackcards--;
+                } else {
+                    cardcolors[i][j] = YELLOW;
+                }
             }
         }
     }
