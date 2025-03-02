@@ -94,40 +94,28 @@ public class MangaRosaMemoryGame {
             case "A":
                 tamanho = 4;
                 gerarTabuleiro();
-                System.out.println("\u2550".repeat(22));
-                System.out.println("Que comecem os jogos!");
-                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                jogo();
                 tabuleiroOculto();
                 break;
 
             case "B":
                 tamanho = 6;
                 gerarTabuleiro();
-                System.out.println("\u2550".repeat(22));
-                System.out.println("Que comecem os jogos!");
-                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                jogo();
                 tabuleiroOculto();
                 break;
 
             case "C":
                 tamanho = 8;
                 gerarTabuleiro();
-                System.out.println("\u2550".repeat(22));
-                System.out.println("Que comecem os jogos!");
-                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                jogo();
                 tabuleiroOculto();
                 break;
 
             case "D":
                 tamanho = 10;
                 gerarTabuleiro();
-                System.out.println("\u2550".repeat(22));
-                System.out.println("Que comecem os jogos!");
-                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                jogo();
                 tabuleiroOculto();
                 break;
 
@@ -135,10 +123,7 @@ public class MangaRosaMemoryGame {
                 System.out.println("Opção inválida! Definindo padrão 4x4.");
                 tamanho = 4;
                 gerarTabuleiro();
-                System.out.println("\u2550".repeat(22));
-                System.out.println("Que comecem os jogos!");
-                System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
-                        "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
+                jogo();
                 tabuleiroOculto();
 
         }
@@ -191,6 +176,13 @@ public class MangaRosaMemoryGame {
                 index++;
             }
         }
+    }
+
+    private static void jogo() {
+        System.out.println("\u2550".repeat(22));
+        System.out.println("Que comecem os jogos!");
+        System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
+                "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
     }
 
     private static void exibirTabuleiro() {
