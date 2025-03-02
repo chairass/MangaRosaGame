@@ -136,7 +136,9 @@ public class MangaRosaMemoryGame {
         coluna = scanner.nextInt();
 
         if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length){
+            tabuleiro2[linha][coluna] = matriz[linha][coluna];
             System.out.println("Carta revelada: " + matriz[linha][coluna]);
+            exibirTabuleiro();
         } else {
             System.out.println("Posição inválida! Tente novamente.");
         }
