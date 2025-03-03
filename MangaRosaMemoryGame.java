@@ -13,16 +13,18 @@ public class MangaRosaMemoryGame {
     private static int coluna;
     private static int linha;
     public static String[][] matriz;
+    int roundcounter1 = 0;
+    int roundcounter2 = 0;
     public static int tamanho;
     public static String tamTabuleiro;
     public static String[][] tabuleiro2;
-    public static String[][] cardcolors;
+    public static String[][] cardcolors; // adicionei tambem esse array pras cores
 
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[41m";
     public static final String BLUE = "\u001B[44m";
-    public static final String YELLOW = "\u001B[43m";
-    public static final String BLACK = "\u001B[40m";
+    public static final String YELLOW = "\u001B[43m"; // adicionei as cores que faltavam
+    public static final String BLACK = "\u001B[40m"; // adicionei as cores que faltavam
 
     public static void main(String[] args) {
         System.out.println("\u2550".repeat(22));
@@ -130,15 +132,38 @@ public class MangaRosaMemoryGame {
                 tabuleiroOculto();
 
         }
+
+        /*nessa parte da verificacao, o codigo define a roundcounter1 (contador de round) como 0 inicialmente, porque na primeira vez que jogar tem que comecar com 0,
+        * apos cada jogada, ele define roundcounter2 como roundcounter2 = roundcounter(que por enquanto e 0) + 1 e agora armazena os dados de linha e colunas nas variaveis selectedline1 e selectedcolumn1,
+        *  e agora roundcounter 2 equivale a 1, e depois, no segundo round, o roundcounter2 agora vale 2, que quando dividido por 2, o resto da 0, e agora armazena os dados de linha e colunas
+        * nas variaveis selectedline2 e selectedcolumn2, fazendo com que tenhamos duas variaveis de linha e coluna com valores armazenados pra fazer a comparacao com as cores depois
+        * e a variavel pra poder identificar em qual round o jogo esta*/
+
+
+        if (roundcounter2 % 2 == 0){
+            System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
+            linha = scanner.nextInt();
+            int selectedline2 = scanner.nextInt();
+
+            System.out.print("Coluna: ");
+            coluna = scanner.nextInt();
+            int selectedcolumn2 = scanner.nextInt();
+        }
+
         System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
         linha = scanner.nextInt();
+        int selectedline1 = scanner.nextInt();
+
         System.out.print("Coluna: ");
         coluna = scanner.nextInt();
+        int selectedcolumn1 = scanner.nextInt();
+
 
         if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length){
             tabuleiro2[linha][coluna] = matriz[linha][coluna];
             System.out.println("Carta revelada: " + matriz[linha][coluna]);
             exibirTabuleiro();
+            roundcounter2 = roundcounter1 + 1;
         } else {
             System.out.println("Posição inválida! Tente novamente.");
         }
@@ -190,7 +215,7 @@ public class MangaRosaMemoryGame {
 
         Random random = new Random();
         for (int i = 0; i < tamanho; i++) {
-            for (int j = 0; j < tamanho; j++) {
+            for (int j = 0; j < tamanho; j++) { // colocar a verificacao da linha + coluna aqui dentro
                 if (redbluecards > 0) {
                     cardcolors[i][j] = (random.nextBoolean()) ? RED : BLUE;
                     redbluecards--;
@@ -200,6 +225,7 @@ public class MangaRosaMemoryGame {
                 } else {
                     cardcolors[i][j] = YELLOW;
                 }
+
             }
         }
     }
