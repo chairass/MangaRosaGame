@@ -16,6 +16,7 @@ public class MangaRosaMemoryGame {
     static int roundcounter1 = 0;
     static int roundcounter2 = 0;
     public static int tamanho;
+    private static boolean player1turn = true; // when player1 is choosing a card, this is true, when not, this is false
     public static String tamTabuleiro;
     public static String[][] tabuleiro2;
     public static String[][] cardcolors; // adicionei tambem esse array pras cores
@@ -133,42 +134,50 @@ public class MangaRosaMemoryGame {
 
         }
 
-        /*nessa parte da verificacao, o codigo define a roundcounter1 (contador de round) como 0 inicialmente, porque na primeira vez que jogar tem que comecar com 0,
-        * apos cada jogada, ele define roundcounter2 como roundcounter2 = roundcounter(que por enquanto e 0) + 1 e agora armazena os dados de linha e colunas nas variaveis selectedline1 e selectedcolumn1,
-        *  e agora roundcounter 2 equivale a 1, e depois, no segundo round, o roundcounter2 agora vale 2, que quando dividido por 2, o resto da 0, e agora armazena os dados de linha e colunas
-        * nas variaveis selectedline2 e selectedcolumn2, fazendo com que tenhamos duas variaveis de linha e coluna com valores armazenados pra fazer a comparacao com as cores depois
-        * e a variavel pra poder identificar em qual round o jogo esta*/
-
-
-        if (roundcounter2 % 2 == 0){
+        while (true) {
             System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
             linha = scanner.nextInt();
-            int selectedline2 = scanner.nextInt();
-
             System.out.print("Coluna: ");
             coluna = scanner.nextInt();
-            int selectedcolumn2 = scanner.nextInt();
+
+            if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
+                tabuleiro2[linha][coluna] = matriz[linha][coluna];
+                System.out.println("Carta revelada: " + matriz[linha][coluna]);
+                exibirTabuleiro();
+
+                /*Depending on who is playing, add points to him,
+                using the variable that we defined on top*/
+                if (player1turn) {
+                    pontuacaoJ1++;
+                } else {
+                    pontuacaoJ2++;
+                }
+
+                player1turn = !player1turn; // Switch the turns beyond players
+
+                // Check if the game is over (all cards are revealed)
+                if (isGameOver()) {
+                    System.out.println("Fim do jogo!");
+                    mostrarPontuacao();
+                    break;
+                }
+            } else {
+                System.out.println("Posição inválida! Tente novamente.");
+            }
         }
-
-        System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
-        linha = scanner.nextInt();
-        int selectedline1 = scanner.nextInt();
-
-        System.out.print("Coluna: ");
-        coluna = scanner.nextInt();
-        int selectedcolumn1 = scanner.nextInt();
-
-
-        if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length){
-            tabuleiro2[linha][coluna] = matriz[linha][coluna];
-            System.out.println("Carta revelada: " + matriz[linha][coluna]);
-            exibirTabuleiro();
-            roundcounter2 = roundcounter1 + 1;
-        } else {
-            System.out.println("Posição inválida! Tente novamente.");
-        }
-
     }
+    // verify if the game if over by searching the amount of board not founded yet
+    private static boolean isGameOver() {
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                if (tabuleiro2[i][j].equals("C")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     private static void mostrarPontuacao() {
         if (pontuacaoJ1 == 0 && pontuacaoJ2 == 0) {
