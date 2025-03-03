@@ -301,17 +301,15 @@ public class MangaRosaMemoryGame {
     }
 
 
-    public static String[] gerarStringAleatoria(int tamanho) {
+    public static String gerarStringAleatoria() {
         String caracteresNumero = "0123456789";
         String caracteresLetra = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder sb = new StringBuilder();
         Random random = new Random();
 
-        String[] cartas = new String[tamanho * tamanho];
-        for (int i = 0; i < tamanho * tamanho; i++) {
-            cartas[i] = "" + caracteresNumero.charAt(random.nextInt(caracteresNumero.length())) +
-                    caracteresLetra.charAt(random.nextInt(caracteresLetra.length()));
-        }
+        sb.append(caracteresNumero.charAt(random.nextInt(caracteresNumero.length())));
+        sb.append(caracteresLetra.charAt(random.nextInt(caracteresLetra.length())));
 
-        return cartas;
+        return sb.toString();
     }
 }
