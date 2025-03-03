@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -10,8 +11,10 @@ public class MangaRosaMemoryGame {
     private static int resposta = 0;
     private static String jogador1 = "PARTICIPANTE01";
     private static String jogador2 = "PARTICIPANTE02";
-    private static int coluna;
-    private static int linha;
+    private static int coluna1;
+    private static int linha1;
+    private static int coluna2;
+    private static int linha2;
     public static String[][] matriz;
     static int roundcounter1 = 0;
     static int roundcounter2 = 0;
@@ -99,74 +102,86 @@ public class MangaRosaMemoryGame {
         switch (scanner.nextLine().toUpperCase()) {
             case "A":
                 tamanho = 4;
-                gerarTabuleiro();
-                jogo();
-                tabuleiroOculto();
                 break;
 
             case "B":
                 tamanho = 6;
-                gerarTabuleiro();
-                jogo();
-                tabuleiroOculto();
                 break;
 
             case "C":
                 tamanho = 8;
-                gerarTabuleiro();
-                jogo();
-                tabuleiroOculto();
                 break;
 
             case "D":
                 tamanho = 10;
-                gerarTabuleiro();
-                jogo();
-                tabuleiroOculto();
                 break;
 
             default:
                 System.out.println("Opção inválida! Definindo padrão 4x4.");
                 tamanho = 4;
-                gerarTabuleiro();
-                jogo();
-                tabuleiroOculto();
-
         }
 
+        gerarTabuleiro();
+        jogo();
+        tabuleiroOculto();
+
         while (true) {
+            String currentplayer = player1turn ? jogador1 : jogador2;
+            System.out.println("Vez do jogador: " + currentplayer);
+
+
             System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
-            linha = scanner.nextInt();
+            linha1 = scanner.nextInt() - 1;
             System.out.print("Coluna: ");
-            coluna = scanner.nextInt();
+            coluna1 = scanner.nextInt() - 1;
 
-            if (linha >= 0 && linha < matriz.length && coluna >= 0 && coluna < matriz[0].length) {
-                tabuleiro2[linha][coluna] = matriz[linha][coluna];
-                System.out.println("Carta revelada: " + matriz[linha][coluna]);
+            if (linha1 >= 0 && linha1 < tamanho && coluna1 >= 0 && coluna1 < tamanho && tabuleiro2[linha1][coluna1].equals("C")) {
+                tabuleiro2[linha1][coluna1] = matriz[linha1][coluna1];
+                System.out.println("Carta revelada: " + matriz[linha1][coluna1]);
                 exibirTabuleiro();
+            } else {
+                System.out.println("Posição inválida! Tente novamente.");
+                continue;
+            }
 
-                /*Depending on who is playing, add points to him,
-                using the variable that we defined on top*/
+            System.out.print("Digite a posição da segunda carta que deseja revelar\nLinha: ");
+            linha2 = scanner.nextInt() - 1;
+            System.out.print("Coluna: ");
+            coluna2 = scanner.nextInt() - 1;
+
+            if (linha2 >= 0 && linha2 < tamanho && coluna2 >= 0 && coluna2 < tamanho && tabuleiro2[linha2][coluna2].equals("C")) {
+                tabuleiro2[linha2][coluna2] = matriz[linha2][coluna2];
+                System.out.println("Carta revelada: " + matriz[linha2][coluna2]);
+                exibirTabuleiro();
+            } else {
+                System.out.println("Posição inválida! Tente novamente.");
+                tabuleiro2[linha1][coluna1] = "C";
+                continue;
+            }
+
+            if (matriz[linha1][coluna1].equals(matriz[linha2][coluna2])) {
+                System.out.println("Par encontrado! +1 ponto para " +currentplayer);
                 if (player1turn) {
                     pontuacaoJ1++;
                 } else {
                     pontuacaoJ2++;
                 }
-
-                player1turn = !player1turn; // Switch the turns beyond players
-
-                // Check if the game is over (all cards are revealed)
-                if (isGameOver()) {
-                    System.out.println("Fim do jogo!");
-                    mostrarPontuacao();
-                    break;
-                }
             } else {
-                System.out.println("Posição inválida! Tente novamente.");
+                System.out.println("Par não encontrado. Próximo jogador.");
+                tabuleiro2[linha1][coluna1]="C";// hide first selected card and second selected card after it
+                tabuleiro2[linha2][coluna2]="C";
+                player1turn=!player1turn;// switch the turns between player 1 and player 2
+            }
+
+            // verify if the game is over by calling method that verifies it
+            if (isGameOver()) {
+                System.out.println("Fim do jogo!");
+                mostrarPontuacao();
+                break;
             }
         }
     }
-    // verify if the game if over by searching the amount of board not founded yet
+    // verify if the game is over by searching the amount of board not founded yet
     private static boolean isGameOver() {
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
