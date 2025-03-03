@@ -13,8 +13,8 @@ public class MangaRosaMemoryGame {
     private static int coluna;
     private static int linha;
     public static String[][] matriz;
-    int roundcounter1 = 0;
-    int roundcounter2 = 0;
+    static int roundcounter1 = 0;
+    static int roundcounter2 = 0;
     public static int tamanho;
     public static String tamTabuleiro;
     public static String[][] tabuleiro2;
