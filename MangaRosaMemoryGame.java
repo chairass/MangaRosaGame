@@ -11,6 +11,8 @@ public class MangaRosaMemoryGame {
     private static int resposta = 0;
     private static String jogador1 = "PARTICIPANTE01";
     private static String jogador2 = "PARTICIPANTE02";
+    private static int jogadasJ1 = 0; // Contador de jogadas do Jogador 1 //gio
+    private static int jogadasJ2 = 0; // Contador de jogadas do Jogador 2 //gio
     private static int coluna1;
     private static int linha1;
     private static int coluna2;
@@ -159,6 +161,13 @@ public class MangaRosaMemoryGame {
                 continue;
             }
 
+            // incrementa as jogadas do jogador atual
+            if (player1turn) { //gio
+                jogadasJ1++; // incrementa as jogadas do jogador 1
+            } else {
+                jogadasJ2++; // incrementa as jogadas do jogador 2
+            } //gio
+
             if (matriz[linha1][coluna1].equals(matriz[linha2][coluna2])) {
                 System.out.println("Par encontrado! +1 ponto para " +currentplayer);
                 if (player1turn) {
@@ -198,8 +207,8 @@ public class MangaRosaMemoryGame {
         if (pontuacaoJ1 == 0 && pontuacaoJ2 == 0) {
             System.out.println("Ainda não há pontuação");
         } else {
-            System.out.println("O jogador " + jogador1 + " tem " + pontuacaoJ1 + " pontos.");
-            System.out.println("O jogador " + jogador2 + " tem " + pontuacaoJ2 + " pontos.");
+            System.out.println("O jogador " + jogador1 + " tem " + pontuacaoJ1 + " pontos.(Jogadas: "+jogadasJ1+")");//gio: adicionei as jogadas aq
+            System.out.println("O jogador " + jogador2 + " tem " + pontuacaoJ2 + " pontos.(Jogadas: "+jogadasJ2+")");
         }
     }
 
