@@ -123,7 +123,8 @@ public class MangaRosaMemoryGame {
 
         gerarTabuleiro();
         jogo();
-        tabuleiroOculto();
+        //tabuleiroOculto();
+        exibirTabuleiro();
 
         while (true) {
             String currentplayer = player1turn ? jogador1 : jogador2;
@@ -185,7 +186,7 @@ public class MangaRosaMemoryGame {
     private static boolean isGameOver() {
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
-                if (tabuleiro2[i][j].equals("C")) {
+                if (tabuleiro2[i][j].equals("C ")) {
                     return false;
                 }
             }
@@ -232,24 +233,35 @@ public class MangaRosaMemoryGame {
             }
         }
 
-        int totalcards = tamanho * tamanho;
-        int redbluecards = totalcards / 2;
-        int blackcards = 1;
-        int yellowcards = totalcards - redbluecards - blackcards;
+        int totalcards = tamanho * tamanho / 2;
+        int redcards = totalcards / 2;
+        int bluecards = totalcards / 2;
+        int blackcards = 2;
+        int yellowcards = totalcards - (redcards + bluecards + blackcards);
 
         Random random = new Random();
         for (int i = 0; i < tamanho; i++) {
-            for (int j = 0; j < tamanho; j++) { // colocar a verificacao da linha + coluna aqui dentro
-                if (redbluecards > 0) {
-                    cardcolors[i][j] = (random.nextBoolean()) ? RED : BLUE;
-                    redbluecards--;
+            for (int j = 0; j < tamanho; j++) {
+                if (redcards > 0 && bluecards > 0) {
+                    if (random.nextBoolean()) {
+                        cardcolors[i][j] = RED;
+                        redcards--;
+                    } else {
+                        cardcolors[i][j] = BLUE;
+                        bluecards--;
+                    }
+                } else if (redcards > 0) {
+                    cardcolors[i][j] = RED;
+                    redcards--;
+                } else if (bluecards > 0) {
+                    cardcolors[i][j] = BLUE;
+                    bluecards--;
                 } else if (blackcards > 0) {
                     cardcolors[i][j] = BLACK;
                     blackcards--;
                 } else {
                     cardcolors[i][j] = YELLOW;
                 }
-
             }
         }
     }
@@ -262,7 +274,7 @@ public class MangaRosaMemoryGame {
     }
 
     private static void exibirTabuleiro() {
-
+        tabuleiro2 = new String[tamanho][tamanho];
 
         // Adicionando a numeração das colunas
         System.out.print("  "); // Espaço inicial para alinhar corretamente
@@ -275,13 +287,13 @@ public class MangaRosaMemoryGame {
         for (int i = 0; i < tamanho; i++) {
             System.out.print((i + 1) + " "); // Numeração das linhas
             for (int j = 0; j < tamanho; j++) {
-                if (tabuleiro2[i][j].equals("C")) {
+                if (" C ".equals(tabuleiro2[i][j])) {
 
                     System.out.print("C  ");
                 } else {
 
                     String color = cardcolors[i][j];
-                    System.out.print(color + matriz[i][j] + RESET + "  ");
+                    System.out.print(color + matriz[i][j] + RESET + "   ");
                 }
             }
             System.out.println();
@@ -289,15 +301,17 @@ public class MangaRosaMemoryGame {
     }
 
 
-    public static String gerarStringAleatoria() {
+    public static String[] gerarStringAleatoria(int tamanho) {
         String caracteresNumero = "0123456789";
         String caracteresLetra = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuilder sb = new StringBuilder();
         Random random = new Random();
 
-        sb.append(caracteresNumero.charAt(random.nextInt(caracteresNumero.length())));
-        sb.append(caracteresLetra.charAt(random.nextInt(caracteresLetra.length())));
+        String[] cartas = new String[tamanho * tamanho];
+        for (int i = 0; i < tamanho * tamanho; i++) {
+            cartas[i] = "" + caracteresNumero.charAt(random.nextInt(caracteresNumero.length())) +
+                    caracteresLetra.charAt(random.nextInt(caracteresLetra.length()));
+        }
 
-        return sb.toString();
+        return cartas;
     }
 }
