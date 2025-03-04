@@ -168,25 +168,49 @@ public class MangaRosaMemoryGame {
                 jogadasJ2++; // incrementa as jogadas do jogador 2
             } //gio
 
-            if (matriz[linha1][coluna1].equals(matriz[linha2][coluna2])) {
-                System.out.println("Par encontrado! +1 ponto para " +currentplayer);
-                if (player1turn) {
-                    pontuacaoJ1++;
-                } else {
-                    pontuacaoJ2++;
-                }
-            } else {
-                System.out.println("Par não encontrado. Próximo jogador.");
-                tabuleiro2[linha1][coluna1]="C";// hide first selected card and second selected card after it
-                tabuleiro2[linha2][coluna2]="C";
-                player1turn=!player1turn;// switch the turns between player 1 and player 2
-            }
+            if (cardcolors[linha1][coluna1].equals(cardcolors[linha2][coluna2])) {
+                String color1 = cardcolors[linha1][coluna1];
+                String color2 = cardcolors[linha2][coluna2];
 
-            // verify if the game is over by calling method that verifies it
-            if (isGameOver()) {
-                System.out.println("Fim do jogo!");
-                mostrarPontuacao();
-                break;
+                if (color1.equals(YELLOW) && color2.equals(YELLOW)) {
+                    System.out.println("Par com fundo amarelo! +1 ponto para " + currentplayer);
+                    if (player1turn) {
+                        pontuacaoJ1++;
+                    } else {
+                        pontuacaoJ2++;
+                    }
+                } else if (color1.equals(RED) && color2.equals(RED) && player1turn) {
+                    System.out.println("Par com fundo vermelho! +5 ponto para " + currentplayer);
+                    pontuacaoJ1 += 5;
+                } else if (color1.equals(BLUE) && color2.equals(BLUE) && !player1turn) {
+                    System.out.println("Par com fundo azul! +5 ponto para " + currentplayer);
+                    pontuacaoJ1 += 5;
+                } else if (color1.equals(RED) && color2.equals(RED) && !player1turn) {
+                    System.out.println("Par com fundo vermelho! +1 ponto para " + currentplayer);
+                    pontuacaoJ1++;
+                } else if (color1.equals(BLUE) && color2.equals(BLUE) && player1turn) {
+                    System.out.println("Par com fundo azul! +1 ponto para " + currentplayer);
+                    pontuacaoJ1++;
+                } else if (color1.equals(BLACK) || color2.equals(BLACK)) {
+                    if (color1.equals(BLACK) && color2.equals(BLACK)) {
+                        System.out.println("Par com fundo preto! +50 pontos para " + currentplayer);
+                        if (player1turn) {
+                            pontuacaoJ1 += 50;
+                        } else {
+                            pontuacaoJ2 += 50;
+                        }
+                    } else {
+                        System.out.println("Voce revelou uma carta preta e nao encontrou o par! -50 pontos para " + currentplayer);
+                        if (player1turn) {
+                            pontuacaoJ1 = Math.max(0, pontuacaoJ1 - 50);
+                        } else {
+                            pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 50);
+                        }
+                        System.out.println("Fim do jogo!");
+                        Pontuacao.mostrarPontuacao();
+                        return;
+                    }
+                }
             }
         }
     }
