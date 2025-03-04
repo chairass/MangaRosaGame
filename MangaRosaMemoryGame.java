@@ -169,7 +169,7 @@ public class MangaRosaMemoryGame {
             } //gio
 
                                                                                 // remove bars when matriz evens be fixed
-            if (cardcolors[linha1][coluna1].equals(cardcolors[linha2][coluna2]) /* && matriz[linha1][coluna1].equals(matriz[linha2][coluna2]))*/ {
+            if (cardcolors[linha1][coluna1].equals(cardcolors[linha2][coluna2]) /* && matriz[linha1][coluna1].equals(matriz[linha2][coluna2]))*/) {
                 String color1 = cardcolors[linha1][coluna1];
                 String color2 = cardcolors[linha2][coluna2];
 
