@@ -1,7 +1,5 @@
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+
+import java.util.*;
 
 public class MangaRosaMemoryGame {
 
@@ -74,6 +72,7 @@ public class MangaRosaMemoryGame {
             }
         }
 
+
         // Adicionando a numeração das colunas
         System.out.print("  "); // Espaço inicial para alinhar os números corretamente
         for (int j = 0; j < tamanho; j++) {
@@ -125,7 +124,8 @@ public class MangaRosaMemoryGame {
 
         gerarTabuleiro();
         jogo();
-        tabuleiroOculto();
+        exibirTabuleiro();
+        ///tabuleiroOculto();
 
         while (true) {
             String currentplayer = player1turn ? jogador1 : jogador2;
@@ -168,7 +168,7 @@ public class MangaRosaMemoryGame {
                 jogadasJ2++; // incrementa as jogadas do jogador 2
             } //gio
 
-                                                                                // remove bars when matriz evens be fixed
+            // remove bars when matriz evens be fixed
             if (cardcolors[linha1][coluna1].equals(cardcolors[linha2][coluna2]) /* && matriz[linha1][coluna1].equals(matriz[linha2][coluna2]))*/) {
                 String color1 = cardcolors[linha1][coluna1];
                 String color2 = cardcolors[linha2][coluna2];
@@ -208,7 +208,7 @@ public class MangaRosaMemoryGame {
                             pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 50);
                         }
                         System.out.println("Fim do jogo!");
-                        Pontuacao.mostrarPontuacao();
+                        //Pontuacao.mostrarPontuacao();
                         return;
                     }
                 }
@@ -251,12 +251,18 @@ public class MangaRosaMemoryGame {
         cardcolors = new String[tamanho][tamanho];
 
         ArrayList<String> tabuleiro = new ArrayList<>();
-        for (int i = 0; i < tamanho; i++) {
-            for (int j = 0
-                 ; j < tamanho; j++) {
-                tabuleiro.add(gerarStringAleatoria());
+        Set<String> uniquePairs = new HashSet<>();
+
+        while (uniquePairs.size() < (tamanho * tamanho) / 2) {
+            String stringPairs = gerarStringAleatoria();
+            if (uniquePairs.add(stringPairs)) {
+                tabuleiro.add(stringPairs);
+                tabuleiro.add(stringPairs);
             }
         }
+
+        // Embaralhar cartas
+        Collections.shuffle(tabuleiro);
 
         int index = 0;
         for (int i = 0; i < tamanho; i++) {
@@ -265,6 +271,7 @@ public class MangaRosaMemoryGame {
                 index++;
             }
         }
+
 
         int totalcards = tamanho * tamanho;
         int redbluecards = totalcards / 2;
@@ -296,7 +303,7 @@ public class MangaRosaMemoryGame {
     }
 
     private static void exibirTabuleiro() {
-
+        tabuleiro2 = new String[tamanho][tamanho];
 
         // Adicionando a numeração das colunas
         System.out.print("  "); // Espaço inicial para alinhar corretamente
@@ -309,13 +316,13 @@ public class MangaRosaMemoryGame {
         for (int i = 0; i < tamanho; i++) {
             System.out.print((i + 1) + " "); // Numeração das linhas
             for (int j = 0; j < tamanho; j++) {
-                if (tabuleiro2[i][j].equals("C")) {
+                if (" C ".equals(tabuleiro2[i][j])) {
 
                     System.out.print("C  ");
                 } else {
 
                     String color = cardcolors[i][j];
-                    System.out.print(color + matriz[i][j] + RESET + "  ");
+                    System.out.print(color + matriz[i][j] + RESET + "   ");
                 }
             }
             System.out.println();
@@ -334,4 +341,5 @@ public class MangaRosaMemoryGame {
 
         return sb.toString();
     }
+
 }
