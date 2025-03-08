@@ -87,30 +87,27 @@ public class MangaRosaMemoryGame {
     private static void iniciarJogo() {
         System.out.print("Jogador 1: ");
         jogador1 = scanner.next();
+        scanner.nextLine();
         System.out.print("Jogador 2: ");
         jogador2 = scanner.next();
+        scanner.nextLine();
 
         System.out.println("Informe o tamanho do tabuleiro:\nA: 4x4\nB: 6x6\nC: 8x8 \nD: 10x10");
-        tamTabuleiro = scanner.nextLine();
+        String opcao = scanner.nextLine().toUpperCase();
 
-        //Implementamos Switch case para verificar o tamanho escolhido pelo usuario, e colocamos na variavel tamanho, foi usado toUpperCase para ignorar as maiusculas/minusculas
-        switch (scanner.nextLine().toUpperCase()) {
+        switch (opcao) {
             case "A":
                 tamanho = 4;
                 break;
-
             case "B":
                 tamanho = 6;
                 break;
-
             case "C":
                 tamanho = 8;
                 break;
-
             case "D":
                 tamanho = 10;
                 break;
-
             default:
                 System.out.println("Opção inválida! Definindo padrão 4x4.");
                 tamanho = 4;
@@ -121,24 +118,24 @@ public class MangaRosaMemoryGame {
         tabuleiroOculto();
 
         while (true) {
-            String currentplayer = player1turn ? jogador1 : jogador2;
-            System.out.println("Vez do jogador: " + currentplayer);
+            String currentplayer = player1turn ? jogador1 : jogador2; // que a gente definiu aqui
+            System.out.println("Vez do jogador: " + currentplayer); // nessa linha de cima, se for a vez do jogador1 (com player1turn), ele define jogador1 como currentplayer, se nao, ele define jogador 2 como currentplayer
 
-
+            // pede pro usuario digitar a posicao e revela a primeira carta
             System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
-            int linha1 = scanner.nextInt() - 1; //Diminuir 1 casa direto da informação que recebe do scan
+            int linha1 = scanner.nextInt() - 1;
             System.out.print("Coluna: ");
             int coluna1 = scanner.nextInt() - 1;
 
-            //Verifica se o usuario colocou a linha e a coluna valida
-            if (linha1 >= 0 && linha1 < tamanho && coluna1 >= 0 && coluna1 < tamanho && tabuleiro2[linha1][coluna1].equals("C")) {
+            if (linha1 >= 0 && linha1 < tamanho && coluna1 >= 0 && coluna1 < tamanho && tabuleiro2[linha1][coluna1].equals("C")) { // verifica se a carta que a pessoa escolheu ainda esta oculta e se ela existe no tabuleiro
                 tabuleiro2[linha1][coluna1] = tabuleiroPares[linha1][coluna1];
-                System.out.println("Carta revelada: " + tabuleiroPares[linha1][coluna1]);
+                exibirTabuleiro(); // Mostra o tabuleiro depois de escolher a carta que vai revelar
             } else {
-                System.out.println("Posição inválida! Tente novamente.");
+                System.out.println("Posição inválida! Tente novamente."); // se nao for valida, ele retorna mensagem de erro
                 continue;
             }
 
+            // pede pro usuario digitar a posicao e revela a segunda carta
             System.out.print("Digite a posição da segunda carta que deseja revelar\nLinha: ");
             int linha2 = scanner.nextInt() - 1;
             System.out.print("Coluna: ");
@@ -147,73 +144,67 @@ public class MangaRosaMemoryGame {
             if (linha2 >= 0 && linha2 < tamanho && coluna2 >= 0 && coluna2 < tamanho && tabuleiro2[linha2][coluna2].equals("C")) {
                 tabuleiro2[linha2][coluna2] = tabuleiroPares[linha2][coluna2];
                 System.out.println("Carta revelada: " + tabuleiroPares[linha2][coluna2]);
+                exibirTabuleiro(); // Mostra o tabuleiro depois de escolher a carta que vai revelar
             } else {
-                System.out.println("Posição inválida! Tente novamente.");
-                tabuleiro2[linha1][coluna1] = "C";
+                System.out.println("Posição inválida! Tente novamente."); // se nao for valida, ele retorna mensagem de erro
+                tabuleiro2[linha1][coluna1] = "C"; // esconde a carta de novo se nao for valida
                 continue;
             }
 
-           if (player1turn) { //gio
-                jogadasJ1++; // incrementa as jogadas do jogador 1
+            // Aqui, a gente mudou toda a logica de pontuacao, que tava dando conflito e mexendo nas cores
+            boolean isPair = tabuleiroPares[linha1][coluna1].equals(tabuleiroPares[linha2][coluna2]); // aqui, ele geral um boolean pra caso a linha1 e coluna1 for igual a linha2 e coluna2 (vai ficar dando true se for)
+
+            if (isPair) { // se for true, ele chama esse if
+                String pairColor = cardcolors[linha1][coluna1]; // aqui ele atribui a cor da primeira carta pra essa string "pairColor"
+                if (pairColor.equals(YELLOW)) { // se o par for amarelo, ele adiciona 1 ponto pra o player que ta jogando
+                    if (currentplayer.equals(jogador1)) pontuacaoJ1++;
+                    else pontuacaoJ2++;
+                    System.out.println("Par amarelo! +1 ponto para " + currentplayer); // atraves da variavel currentplayer
+                } else if (pairColor.equals(RED)) { // se o par for vermelho, ele adiciona 5 pontos pra o player que ta jogando
+                    if (currentplayer.equals(jogador1)) { // aqui ele verifica se o currentplayer (jogador atual) e o jogador1, e se for
+                        pontuacaoJ1 += 5; // ele adiciona 5 (que seriam os pontos) na pontuacaoJ1 (pontuacao do jogador 1)
+                        System.out.println("Par vermelho! +5 pontos para " + currentplayer);
+                    } else { // se nao for o jogador1 (if (currentplayer.equals(jogador1))), logicamente so pode ser o jogador 2
+                        pontuacaoJ2 += 1; // entao ele adiciona a pontuacao pro score do jogador2
+                        System.out.println("Par vermelho! +1 ponto para " + currentplayer);
+                    }
+                } else if (pairColor.equals(BLUE)) {
+                    if (currentplayer.equals(jogador2)) {
+                        pontuacaoJ2 += 5;
+                        System.out.println("Par azul! +5 pontos para " + currentplayer);
+                    } else {
+                        pontuacaoJ1 += 1;
+                        System.out.println("Par azul! +1 ponto para " + currentplayer);
+                    }
+                } else if (pairColor.equals(BLACK)) {
+                    if (currentplayer.equals(jogador1)) pontuacaoJ1 += 50;
+                    else pontuacaoJ2 += 50;
+                    System.out.println("Par preto! +50 pontos para " + currentplayer);
+                }
             } else {
-                jogadasJ2++; // incrementa as jogadas do jogador 2
-            } //gio
-
-            player1turn = !player1turn; //Alterna as jogadas entre os jogadores
-
-            // remova as barras quando os pares da matriz forem corrigidos
-            if (cardcolors[linha1][coluna1].equals(cardcolors[linha2][coluna2])) {
-                String color1 = cardcolors[linha1][coluna1];
-                String color2 = cardcolors[linha2][coluna2];
-
-
-                if (color1.equals(YELLOW) && color2.equals(YELLOW)) { // quando color igualar amarelo o jogador da vez ganha 2 pontos
-                    System.out.println("Par com fundo amarelo! +1 ponto para " + currentplayer);
-                    if (player1turn) {
-                        pontuacaoJ1++;
-                    } else {
-                        pontuacaoJ2++;
-                    }
-                }
-                if (color1.equals(RED) && color2.equals(RED) && player1turn) { // se o jogador vermelho acertar o par da sua carta ganha 5 pontos, se for o jogador azu que tiver encontrado o seu par ele tambem ganha
-                    System.out.println("Par com fundo vermelho! +5 ponto para " + currentplayer);
-                    pontuacaoJ1 += 5;
-                }
-                if (color1.equals(BLUE) && color2.equals(BLUE) && !player1turn) {
-                    System.out.println("Par com fundo azul! +5 ponto para " + currentplayer);
-                    pontuacaoJ1 += 5;
-                }
-                if (color1.equals(RED) && color2.equals(RED) && !player1turn) {
-                    System.out.println("Par com fundo vermelho! +1 ponto para " + currentplayer);// se o jogador encontra o par que nao for ele ganha 1 ponto
-                    pontuacaoJ1++;
-                }
-                if (color1.equals(BLUE) && color2.equals(BLUE) && player1turn) {
-                    System.out.println("Par com fundo azul! +1 ponto para " + currentplayer);
-                    pontuacaoJ1++;
-                }
-                if (color1.equals(BLACK) && color2.equals(BLACK)) {
-                        System.out.println("Par com fundo preto! +50 pontos para " + currentplayer); // se o jogador da vez encontrar o par de cartas preto ele ganha 50 pontos, se não ele perde o jogo
-                        if (player1turn) {
-                            pontuacaoJ1 += 50;
-                        } else {
-                            pontuacaoJ2 += 50;
-                        }
-                    }
-                else if (color1.equals(BLACK)) {
-                    System.out.println("Voce revelou uma carta preta e nao encontrou o par! -50 pontos para " + currentplayer);
-                    System.out.println(Arrays.deepToString(cardcolors));
-                    if (player1turn) {
-                        pontuacaoJ1 = Math.max(0, pontuacaoJ1 - 50);
-                    } else {
-                        pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 50);
-                    }
-                    System.out.println("Fim do jogo!");
-                    mostrarPontuacao();
+                String firstColor = cardcolors[linha1][coluna1]; // aqui ele coloca a cor da primeira carta selecionada (linha1 e coluna1) e atribui a firstColor, agora essa variavel tem o valor da cor que foi selecionada
+                String secondColor = cardcolors[linha2][coluna2];
+                if (firstColor.equals(BLACK) && secondColor.equals(BLACK)) {
+                    System.out.println("Voce encontrou o par preto! +50 pontos para " + currentplayer); // se a cor do part que o jogador escolheu for igual a BLACK (carta preta), ele adiciona 50 pontos de quem estiver jogando
+                    if (currentplayer.equals(jogador1)) pontuacaoJ1 = Math.max(0, pontuacaoJ1 + 50);
+                    else pontuacaoJ2 = Math.max(0, pontuacaoJ2 + 50);
+                    /*System.out.println("Fim do jogo!"); // aqui ele termina o jogo se a pessoa escolher um par que nao e preto e perder os 50 pontos
+                    mostrarPontuacao();*/
                     return;
-
+                } // lembrar aqui de adicionar a condicionar pra tirar 50 pontos se nao for preta
+                else if ((firstColor.equals(RED) && currentplayer.equals(jogador2)) || (firstColor.equals(BLUE) && currentplayer.equals(jogador1))) { // aqui, ele faz a verificacao da primeira cor e da cor do jogador, da seguinte forma : se a primeira cor que achou for vermelho, e o jogador atual for j2, ou, se a primneira cor for azul e o jogador atual for j1
+                    if (currentplayer.equals(jogador1)) pontuacaoJ1 = Math.max(0, pontuacaoJ1 - 2); // se passar na condicao de cima, ele tira 2 pontos do jogador1 ou do jogador 2, dependendo de quem esteja jogando
+                    else pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 2);
+                    System.out.println("Errou par adversário! -2 pontos para " + currentplayer);
                 }
+                tabuleiro2[linha1][coluna1] = "C"; // esconde a carta da linha 1 e da linha 2 depois de passar pelas condicionais
+                tabuleiro2[linha2][coluna2] = "C";
             }
+
+            player1turn = !player1turn; // aqui, depois que um player jogar, ele transforma a variavel player1turn (vez do jogador 1(que comeca em true)) igual a diferente de player1turn (false), e se for false, e a vez do jogador 2
+            exibirTabuleiro(); // depois de fazer a troca de jogadores e esconder as cartas, ele mostra o tabuleiro de novo, com tudo como C
         }
+
     }
 
     // mostra a pontuação dos jogadores
@@ -236,95 +227,89 @@ public class MangaRosaMemoryGame {
         System.out.println("- Carta preta: Se errar o par → perde o jogo. Se acertar → ganha.");
     }
 
-    // Gera o tabuleiro e adiciona os pares de String
-    public static void gerarTabuleiro() {
+    // aqui adicionei a classe card, pra que a carta tenha uma cor e um valor (que estao em diferentes arrays)
+    private static class Card {
+        String value;
+        String color;
+
+        public Card(String value, String color) { // deixei publica pra dar pra acessar na outra classe
+            this.value = value;
+            this.color = color;
+        }
+    }
+
+    public static void gerarTabuleiro() { // dentro dele, gerou os dois arrays e so recriou toda a logica que vcs ja tinham feito
         tabuleiroPares = new String[tamanho][tamanho];
         cardcolors = new String[tamanho][tamanho];
 
-        ArrayList<String> tabuleiro = new ArrayList<>();
+        int totalPairs = (tamanho * tamanho) / 2; // a quantidade de pares totais e igual ao tamanho * tamanho dividido por 2 (1 par)
         Set<String> uniquePairs = new HashSet<>();
-
-        // Utilizamos o tamanho do tabuleiro multiplicado por ele mesmo divindo por 2, para que metade da matriz seja preenchida, e a outra metade fique igual
-        while (uniquePairs.size() < (tamanho * tamanho) / 2) {
-            String stringPairs = gerarStringAleatoria();
-            if (uniquePairs.add(stringPairs)) {
-                tabuleiro.add(stringPairs);
-                tabuleiro.add(stringPairs);
-            }
+        while (uniquePairs.size() < totalPairs) {  // primeiro, ele chama a gerarStringAleatoria depois de verificar o tamanho de pares, vendo se o tamanho de pares e menor que o numero de pares totais
+            uniquePairs.add(gerarStringAleatoria());
         }
 
-        // Embaralhar cartas
-        Collections.shuffle(tabuleiro);
+        List<String> uniquePairsList = new ArrayList<>(uniquePairs); // cria um novo array com os pares unicos, nos quais vao ser atribuidos as cores e define a quantidade de pares de cada cor
+        int redPairs = totalPairs / 4;
+        int bluePairs = totalPairs / 4;
+        int blackPairs = 1;
+        int yellowPairs = totalPairs - redPairs - bluePairs - blackPairs;
 
-        int index = 0;
+        List<String> pairColors = new ArrayList<>(); // cria um novo array pra definir a quantidade dos pares (que ja foram definidos ali em cima, aqui em baixo ele so adiciona a cor na caixinha criada na de cima)
+        for (int i = 0; i < redPairs; i++) pairColors.add(RED);
+        for (int i = 0; i < bluePairs; i++) pairColors.add(BLUE);
+        for (int i = 0; i < blackPairs; i++) pairColors.add(BLACK);
+        for (int i = 0; i < yellowPairs; i++) pairColors.add(YELLOW);
+        Collections.shuffle(pairColors); // mistura as cores
+
+        List<Card> cards = new ArrayList<>(); // faz a mesma coisa dos de cima, mas agora com os valores, e adiciona pra cada carta, um valor e cor
+        for (int i = 0; i < uniquePairsList.size(); i++) {
+            String value = uniquePairsList.get(i);
+            String color = pairColors.get(i);
+            cards.add(new Card(value, color));
+            cards.add(new Card(value, color));
+        }
+        Collections.shuffle(cards); // embaralha as cartas, que ja tem valor e cor com o que definimos la em cima
+
+        int index = 0; // aqui, ele verifica se o tamanho do tabuleiro segue as diretrizes ali em baixo, e pra cada carta, define uma posicao (o index), e vai adicionando a posicao ate ele preencher
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
-                tabuleiroPares[i][j] = tabuleiro.get(index);
+                Card card = cards.get(index);
+                tabuleiroPares[i][j] = card.value;
+                cardcolors[i][j] = card.color;
                 index++;
             }
         }
-
-        // Divisão das cores
-        int totalcards = tamanho * tamanho;
-        int redcards = totalcards / 4;
-        int bluecards = totalcards / 4;
-        int blackcards = 2;
-        int yellowcards = totalcards - (redcards + bluecards + blackcards);
-
-        for (int i = 0; i < tamanho; i++) {
-            for (int j = 0; j < tamanho; j++) {
-                if (blackcards > 0) {
-                    cardcolors[i][j] = BLACK;
-                    blackcards--;
-                } else if (redcards > 0) {
-                    cardcolors[i][j] = RED;
-                    redcards--;
-                } else if (bluecards > 0) {
-                    cardcolors[i][j] = BLUE;
-                    bluecards--;
-                } else {
-                    cardcolors[i][j] = YELLOW;
-                    yellowcards--;
-                }
-            }
-//            Collections.shuffle(Collections.singletonList(cardcolors));
-        }
-
     }
 
-    private static void jogo() {
+    private static void jogo() { // exibir a pontuacao e cor do jogador antes de escolher as cartas
         System.out.println("═".repeat(22));
         System.out.println("Que comecem os jogos!");
         System.out.println("Jogador 1: " + jogador1 + " - " + pontuacaoJ1 + " " + RED + "   " + RESET +
                 "       Jogador 2: " + jogador2 + " - " + pontuacaoJ2 + " "  + BLUE + "   " + RESET);
     }
 
-    private static void exibirTabuleiro() {
-        tabuleiro2 = new String[tamanho][tamanho];
-
-        // Adicionando a numeração das colunas
-        System.out.print("  "); // Espaço inicial para alinhar corretamente
+    private static void exibirTabuleiro() { // exibir tabuleiro
+        System.out.print("  ");
         for (int j = 0; j < tamanho; j++) {
             System.out.print(" " + (j + 1) + "  ");
         }
         System.out.println();
 
-        // Adicionando o tabuleiro com a numeração das linhas
         for (int i = 0; i < tamanho; i++) {
-            System.out.print((i + 1) + " "); // Numeração das linhas
+            System.out.print((i + 1) + " ");
             for (int j = 0; j < tamanho; j++) {
-                if (" C ".equals(tabuleiro2[i][j])) {
-
-                    System.out.print("C  ");
+                if (tabuleiro2[i][j].equals("C")) {
+                    System.out.print("C   ");
                 } else {
-
                     String color = cardcolors[i][j];
-                    System.out.print(color + tabuleiroPares[i][j] + RESET + "   ");
+                    System.out.print(color + tabuleiro2[i][j] + RESET + "   ");
                 }
             }
             System.out.println();
         }
     }
+
+
 
     //Gera os pares das cartas
     public static String gerarStringAleatoria() {
