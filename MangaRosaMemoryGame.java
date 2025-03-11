@@ -269,7 +269,7 @@ public class MangaRosaMemoryGame {
             cards.add(new Card(value, color));
             cards.add(new Card(value, color)); // Cada par é duplicado para garantir correspondência
         }
-        Collections.shuffle(cards); Embaralha as cores
+        Collections.shuffle(cards); //Embaralha as cores
 
         // Distribui as cartas no tabuleiro, atribuindo valores e cores às posições
         int index = 0;
