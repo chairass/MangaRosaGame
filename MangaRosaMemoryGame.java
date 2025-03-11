@@ -121,7 +121,7 @@ public class MangaRosaMemoryGame {
             String currentplayer = player1turn ? jogador1 : jogador2; // que a gente definiu aqui
             System.out.println("Vez do jogador: " + currentplayer); // nessa linha de cima, se for a vez do jogador1 (com player1turn), ele define jogador1 como currentplayer, se nao, ele define jogador 2 como currentplayer
 
-            // pede pro usuario digitar a posicao e revela a primeira carta
+            // pede para o usuario digitar a posicao e revela a primeira carta
             System.out.print("Digite a posição da primeira carta que deseja revelar\nLinha: ");
             int linha1 = scanner.nextInt() - 1;
             System.out.print("Coluna: ");
@@ -129,13 +129,13 @@ public class MangaRosaMemoryGame {
 
             if (linha1 >= 0 && linha1 < tamanho && coluna1 >= 0 && coluna1 < tamanho && tabuleiro2[linha1][coluna1].equals("C")) { // verifica se a carta que a pessoa escolheu ainda esta oculta e se ela existe no tabuleiro
                 tabuleiro2[linha1][coluna1] = tabuleiroPares[linha1][coluna1];
-                exibirTabuleiro(); // Mostra o tabuleiro depois de escolher a carta que vai revelar
+                exibirTabuleiro(); // Mostra o tabuleiro após escolher a carta que vai revelar
             } else {
                 System.out.println("Posição inválida! Tente novamente."); // se nao for valida, ele retorna mensagem de erro
                 continue;
             }
 
-            // pede pro usuario digitar a posicao e revela a segunda carta
+            // pede para o usuario digitar a posicao e revela a segunda carta
             System.out.print("Digite a posição da segunda carta que deseja revelar\nLinha: ");
             int linha2 = scanner.nextInt() - 1;
             System.out.print("Coluna: ");
@@ -144,23 +144,24 @@ public class MangaRosaMemoryGame {
             if (linha2 >= 0 && linha2 < tamanho && coluna2 >= 0 && coluna2 < tamanho && tabuleiro2[linha2][coluna2].equals("C")) {
                 tabuleiro2[linha2][coluna2] = tabuleiroPares[linha2][coluna2];
                 System.out.println("Carta revelada: " + tabuleiroPares[linha2][coluna2]);
-                exibirTabuleiro(); // Mostra o tabuleiro depois de escolher a carta que vai revelar
+                exibirTabuleiro(); // Mostra o tabuleiro após escolher a carta que vai revelar
             } else {
                 System.out.println("Posição inválida! Tente novamente."); // se nao for valida, ele retorna mensagem de erro
-                tabuleiro2[linha1][coluna1] = "C"; // esconde a carta de novo se nao for valida
+                tabuleiro2[linha1][coluna1] = "C "; // esconde a carta de novo se nao for valida
                 continue;
             }
 
-            // Aqui, a gente mudou toda a logica de pontuacao, que tava dando conflito e mexendo nas cores
             boolean isPair = tabuleiroPares[linha1][coluna1].equals(tabuleiroPares[linha2][coluna2]); // aqui, ele geral um boolean pra caso a linha1 e coluna1 for igual a linha2 e coluna2 (vai ficar dando true se for)
 
             if (isPair) { // se for true, ele chama esse if
-                String pairColor = cardcolors[linha1][coluna1]; // aqui ele atribui a cor da primeira carta pra essa string "pairColor"
+                String pairColor = cardcolors[linha1][coluna1]; // aqui ele atribui a cor da primeira carta para essa
+                // string "pairColor"
                 if (pairColor.equals(YELLOW)) { // se o par for amarelo, ele adiciona 1 ponto pra o player que ta jogando
                     if (currentplayer.equals(jogador1)) pontuacaoJ1++;
                     else pontuacaoJ2++;
                     System.out.println("Par amarelo! +1 ponto para " + currentplayer); // atraves da variavel currentplayer
-                } else if (pairColor.equals(RED)) { // se o par for vermelho, ele adiciona 5 pontos pra o player que ta jogando
+                } else if (pairColor.equals(RED)) { // se o par for vermelho, ele adiciona 5 pontos para o player que
+                    // ta jogando
                     if (currentplayer.equals(jogador1)) { // aqui ele verifica se o currentplayer (jogador atual) e o jogador1, e se for
                         pontuacaoJ1 += 5; // ele adiciona 5 (que seriam os pontos) na pontuacaoJ1 (pontuacao do jogador 1)
                         System.out.println("Par vermelho! +5 pontos para " + currentplayer);
@@ -184,21 +185,23 @@ public class MangaRosaMemoryGame {
             } else {
                 String firstColor = cardcolors[linha1][coluna1]; // aqui ele coloca a cor da primeira carta selecionada (linha1 e coluna1) e atribui a firstColor, agora essa variavel tem o valor da cor que foi selecionada
                 String secondColor = cardcolors[linha2][coluna2];
-                if (firstColor.equals(BLACK) && secondColor.equals(BLACK)) {
-                    System.out.println("Voce encontrou o par preto! +50 pontos para " + currentplayer); // se a cor do part que o jogador escolheu for igual a BLACK (carta preta), ele adiciona 50 pontos de quem estiver jogando
-                    if (currentplayer.equals(jogador1)) pontuacaoJ1 = Math.max(0, pontuacaoJ1 + 50);
-                    else pontuacaoJ2 = Math.max(0, pontuacaoJ2 + 50);
-                    /*System.out.println("Fim do jogo!"); // aqui ele termina o jogo se a pessoa escolher um par que nao e preto e perder os 50 pontos
-                    mostrarPontuacao();*/
+                if (!firstColor.equals(BLACK) && secondColor.equals(BLACK)) {
+                    System.out.println("Você nao encontrou o par da carta preta :( " + currentplayer);
+                    if (currentplayer.equals(jogador1)) pontuacaoJ1 = Math.max(0, pontuacaoJ1 - 50);
+                    else pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 50);
+                    System.out.println("Fim do jogo!"); // aqui ele termina o jogo se a pessoa não encontrar o par da
+                    // carta preta
+                    mostrarPontuacao();
                     return;
-                } // lembrar aqui de adicionar a condicionar pra tirar 50 pontos se nao for preta
+                }
                 else if ((firstColor.equals(RED) && currentplayer.equals(jogador2)) || (firstColor.equals(BLUE) && currentplayer.equals(jogador1))) { // aqui, ele faz a verificacao da primeira cor e da cor do jogador, da seguinte forma : se a primeira cor que achou for vermelho, e o jogador atual for j2, ou, se a primneira cor for azul e o jogador atual for j1
                     if (currentplayer.equals(jogador1)) pontuacaoJ1 = Math.max(0, pontuacaoJ1 - 2); // se passar na condicao de cima, ele tira 2 pontos do jogador1 ou do jogador 2, dependendo de quem esteja jogando
                     else pontuacaoJ2 = Math.max(0, pontuacaoJ2 - 2);
                     System.out.println("Errou par adversário! -2 pontos para " + currentplayer);
                 }
-                tabuleiro2[linha1][coluna1] = "C"; // esconde a carta da linha 1 e da linha 2 depois de passar pelas condicionais
-                tabuleiro2[linha2][coluna2] = "C";
+                tabuleiro2[linha1][coluna1] = "C "; // esconde a carta da linha 1 e da linha 2 depois de passar pelas
+                // condicionais
+                tabuleiro2[linha2][coluna2] = "C ";
             }
 
             player1turn = !player1turn; // aqui, depois que um player jogar, ele transforma a variavel player1turn (vez do jogador 1(que comeca em true)) igual a diferente de player1turn (false), e se for false, e a vez do jogador 2
@@ -217,7 +220,7 @@ public class MangaRosaMemoryGame {
         }
     }
 
-    // mostra as regras do jogo
+    // Mostra as regras do jogo
     private static void mostrarRegras() {
         System.out.println("=== Regras do Jogo ===");
         System.out.println("- Par com fundo amarelo → +1 ponto.");
@@ -227,7 +230,7 @@ public class MangaRosaMemoryGame {
         System.out.println("- Carta preta: Se errar o par → perde o jogo. Se acertar → ganha.");
     }
 
-    // aqui adicionei a classe card, pra que a carta tenha uma cor e um valor (que estao em diferentes arrays)
+    // Classe Card: associa cada carta a uma cor e um valor, utilizando diferentes arrays para armazená-los.
     private static class Card {
         String value;
         String color;
@@ -238,17 +241,49 @@ public class MangaRosaMemoryGame {
         }
     }
 
-    public static void gerarTabuleiro() { // dentro dele, gerou os dois arrays e so recriou toda a logica que vcs ja tinham feito
+    public static void gerarTabuleiro() {
+        // Gera os arrays para armazenar os pares e as cores das cartas
         tabuleiroPares = new String[tamanho][tamanho];
         cardcolors = new String[tamanho][tamanho];
 
-        int totalPairs = (tamanho * tamanho) / 2; // a quantidade de pares totais e igual ao tamanho * tamanho dividido por 2 (1 par)
+        // Calcula o total de pares possíveis no tabuleiro
+        int totalPairs = (tamanho * tamanho) / 2;
+
+        // Gera um conjunto de pares únicos
         Set<String> uniquePairs = new HashSet<>();
         while (uniquePairs.size() < totalPairs) {  // primeiro, ele chama a gerarStringAleatoria depois de verificar o tamanho de pares, vendo se o tamanho de pares e menor que o numero de pares totais
             uniquePairs.add(gerarStringAleatoria());
         }
 
-        List<String> uniquePairsList = new ArrayList<>(uniquePairs); // cria um novo array com os pares unicos, nos quais vao ser atribuidos as cores e define a quantidade de pares de cada cor
+        // Converte o conjunto de pares únicos em uma lista para atribuir cores
+        List<String> uniquePairsList = new ArrayList<>(uniquePairs);
+
+        // Define a quantidade de pares para cada cor
+        List<String> pairColors = getStrings(totalPairs);
+        Collections.shuffle(pairColors); // Embaralha as cores
+
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < uniquePairsList.size(); i++) {
+            String value = uniquePairsList.get(i);
+            String color = pairColors.get(i);
+            cards.add(new Card(value, color));
+            cards.add(new Card(value, color)); // Cada par é duplicado para garantir correspondência
+        }
+        Collections.shuffle(cards); Embaralha as cores
+
+        // Distribui as cartas no tabuleiro, atribuindo valores e cores às posições
+        int index = 0;
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                Card card = cards.get(index);
+                tabuleiroPares[i][j] = card.value;
+                cardcolors[i][j] = card.color;
+                index++;
+            }
+        }
+    }
+
+    private static List<String> getStrings(int totalPairs) {
         int redPairs = totalPairs / 4;
         int bluePairs = totalPairs / 4;
         int blackPairs = 1;
@@ -259,26 +294,7 @@ public class MangaRosaMemoryGame {
         for (int i = 0; i < bluePairs; i++) pairColors.add(BLUE);
         for (int i = 0; i < blackPairs; i++) pairColors.add(BLACK);
         for (int i = 0; i < yellowPairs; i++) pairColors.add(YELLOW);
-        Collections.shuffle(pairColors); // mistura as cores
-
-        List<Card> cards = new ArrayList<>(); // faz a mesma coisa dos de cima, mas agora com os valores, e adiciona pra cada carta, um valor e cor
-        for (int i = 0; i < uniquePairsList.size(); i++) {
-            String value = uniquePairsList.get(i);
-            String color = pairColors.get(i);
-            cards.add(new Card(value, color));
-            cards.add(new Card(value, color));
-        }
-        Collections.shuffle(cards); // embaralha as cartas, que ja tem valor e cor com o que definimos la em cima
-
-        int index = 0; // aqui, ele verifica se o tamanho do tabuleiro segue as diretrizes ali em baixo, e pra cada carta, define uma posicao (o index), e vai adicionando a posicao ate ele preencher
-        for (int i = 0; i < tamanho; i++) {
-            for (int j = 0; j < tamanho; j++) {
-                Card card = cards.get(index);
-                tabuleiroPares[i][j] = card.value;
-                cardcolors[i][j] = card.color;
-                index++;
-            }
-        }
+        return pairColors;
     }
 
     private static void jogo() { // exibir a pontuacao e cor do jogador antes de escolher as cartas
